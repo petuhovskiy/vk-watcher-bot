@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  app:
+    build: .
+    environment:
+      ADMIN_TELEGRAM_ID: ${ADMIN_TELEGRAM_ID}
+      BOT_TOKEN: ${BOT_TOKEN}
+      CHANNEL_ID: ${CHANNEL_ID}
+      VK_TOKEN: ${VK_TOKEN}
+      HTTP_PROXY: ${HTTP_PROXY}
+      PREV_DURATION: ${PREV_DURATION}
+      PREV_DURATION_HINT: ${PREV_DURATION_HINT}
+    restart: unless-stopped
+
