@@ -2,14 +2,19 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/go-vk-api/vk"
-	"github.com/petuhovskiy/vk-watcher-bot/app"
-	"github.com/petuhovskiy/vk-watcher-bot/conf"
 	"log"
 	"time"
 
+	"github.com/go-vk-api/vk"
+	"github.com/petuhovskiy/vk-watcher-bot/app"
+	"github.com/petuhovskiy/vk-watcher-bot/conf"
+
 	"github.com/petuhovskiy/telegram"
 	"github.com/petuhovskiy/telegram/updates"
+)
+
+const (
+	watcherStartDelay = time.Second * 30
 )
 
 func main() {
@@ -49,17 +54,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-
 	sender := app.NewSender(bot, cfg.Bot.ChannelID)
 
 	// TODO: fix hardcore later
 	tmp := 5903
-	discussWatcher := app.NewWatcher(cli, "128026383", "41000758", sender, cfg.PrevDuration, &tmp)
+	discussWatcher := app.NewWatcher(cli, "128026383", "41000758", sender, cfg.PrevDuration, &tmp, false)
 	go discussWatcher.Start()
 
-	hintWatcher := app.NewWatcher(cli, "128026383", "40182106", sender, cfg.PrevDurationHint, nil)
+	hintWatcher := app.NewWatcher(cli, "128026383", "40182106", sender, cfg.PrevDurationHint, nil, true)
 	go func() {
-		time.Sleep(time.Second * 30)
+		time.Sleep(watcherStartDelay)
 		hintWatcher.Start()
 	}()
 
