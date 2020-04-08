@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/go-vk-api/vk"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -35,7 +35,7 @@ func NewWatcher(cli VkClient, groupID, topicID string, sender *Sender, dur time.
 		skipAnyway:     time.Now().Add(-dur),
 		alreadySent:    map[string]struct{}{},
 		startCommentID: start,
-		messagePin:     true,
+		messagePin:     messagePin,
 	}
 }
 
@@ -64,9 +64,9 @@ func (w *Watcher) readAll() {
 		req["offset"] = offset
 
 		resp, err := w.cli.ReadTopic(req)
-		logrus.WithField("resp", resp).WithField("req", req).Info("req resp")
+		log.WithField("resp", resp).WithField("req", req).Info("req resp")
 		if err != nil {
-			logrus.WithError(err).Error("read topic error")
+			log.WithError(err).Error("read topic error")
 			break
 		}
 		time.Sleep(readTopicDelay)
@@ -77,7 +77,7 @@ func (w *Watcher) readAll() {
 
 		for _, item := range resp.Items {
 			if time.Since(item.Time) >= w.dur {
-				logrus.WithField("comment_id", item.ID).WithField("since", time.Since(item.Time)).Info("updated comment id")
+				log.WithField("comment_id", item.ID).WithField("since", time.Since(item.Time)).Info("updated comment id")
 				w.startCommentID = &item.ID
 			}
 
@@ -89,14 +89,22 @@ func (w *Watcher) readAll() {
 			w.alreadySent[item.AwesomeText] = struct{}{}
 
 			if item.Time.Before(w.skipAnyway) {
-				logrus.WithField("text", item.AwesomeText).Info("skipping anyway old post")
+				log.WithField("text", item.AwesomeText).Info("skipping anyway old post")
 				continue
 			}
 
-			logrus.WithField("text", item.AwesomeText).Info("send content")
+			log.WithField("text", item.AwesomeText).Info("send content")
 			msg, err := w.sender.Send(item.AwesomeText)
-			if w.messagePin && (err != nil) {
-				w.sender.Pin(msg)
+			if err != nil {
+				log.WithField("message", msg).WithError(err).Error("unable to send the message")
+				continue
+			}
+
+			if w.messagePin {
+				err = w.sender.Pin(msg)
+				if err != nil {
+					log.WithField("message", msg).WithError(err).Error("unable to pin the message")
+				}
 			}
 		}
 	}
