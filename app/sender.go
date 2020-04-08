@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+const (
+	telegramQueriesDelay = time.Second * 5
+)
+
 type Sender struct {
 	bot    *telegram.Bot
 	chatID string
@@ -26,7 +30,7 @@ func (s *Sender) Send(text string) {
 	})
 
 	// TODO: workaround telegram spam ban
-	time.Sleep(time.Second * 5)
+	time.Sleep(telegramQueriesDelay)
 }
 
 func (s *Sender) SendPhoto(name string, b []byte) error {

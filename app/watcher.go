@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+const (
+	readTopicDelay = time.Second * 3
+)
+
 type Watcher struct {
 	cli     VkClient
 	groupID string
@@ -61,7 +65,7 @@ func (w *Watcher) readAll() {
 			logrus.WithError(err).Error("read topic error")
 			break
 		}
-		time.Sleep(time.Second * 3)
+		time.Sleep(readTopicDelay)
 
 		if len(resp.Items) == 0 {
 			break
