@@ -63,10 +63,11 @@ func (v VkClient) ReadTopic(req vk.RequestParams) (TopicResponse, error) {
 		location, _ := time.LoadLocation("Europe/Moscow")
 		link := fmt.Sprintf("https://vk.com/topic-%v_%v?post=%v", req["group_id"], req["topic_id"], item.ID)
 		awesomeText := fmt.Sprintf(
-			"<a href=\"%v\">%v</a>\nBy: %v\n%v",
+			"<a href=\"%v\">%v [%v]</a>\nMessage id: %d\n\n%v",
 			link,
-			item.Time.In(location),
 			username,
+			item.Time.In(location).Format("15:04:05"),
+			item.ID,
 			html.EscapeString(item.Text),
 		)
 

@@ -58,10 +58,10 @@ func main() {
 
 	// TODO: fix hardcore later
 	tmp := 5903
-	discussWatcher := app.NewWatcher(cli, "128026383", "41000758", sender, cfg.PrevDuration, &tmp)
+	discussWatcher := app.NewWatcher(cli, "128026383", "41000758", sender, cfg.PrevDuration, &tmp, false)
 	go discussWatcher.Start()
 
-	hintWatcher := app.NewWatcher(cli, "128026383", "40182106", sender, cfg.PrevDurationHint, nil)
+	hintWatcher := app.NewWatcher(cli, "128026383", "40182106", sender, cfg.PrevDurationHint, nil, true)
 	go func() {
 		time.Sleep(watcherStartDelay)
 		hintWatcher.Start()

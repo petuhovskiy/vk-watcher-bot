@@ -20,9 +20,11 @@ type Watcher struct {
 	skipAnyway     time.Time
 	alreadySent    map[string]struct{}
 	startCommentID *int
+
+	messagePin bool // If it equals to true, we should pin all the sent messages
 }
 
-func NewWatcher(cli VkClient, groupID, topicID string, sender *Sender, dur time.Duration, start *int) *Watcher {
+func NewWatcher(cli VkClient, groupID, topicID string, sender *Sender, dur time.Duration, start *int, messagePin bool) *Watcher {
 	return &Watcher{
 		cli:            cli,
 		groupID:        groupID,
@@ -32,6 +34,7 @@ func NewWatcher(cli VkClient, groupID, topicID string, sender *Sender, dur time.
 		skipAnyway:     time.Now().Add(-dur),
 		alreadySent:    map[string]struct{}{},
 		startCommentID: start,
+		messagePin:     true,
 	}
 }
 
@@ -90,7 +93,10 @@ func (w *Watcher) readAll() {
 			}
 
 			logrus.WithField("text", item.AwesomeText).Info("send content")
-			w.sender.Send(item.AwesomeText)
+			msg, err := w.sender.Send(item.AwesomeText)
+			if w.messagePin && (err != nil) {
+				w.sender.Pin(msg)
+			}
 		}
 	}
 }
