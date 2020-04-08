@@ -2,6 +2,7 @@ package conf
 
 import (
 	"github.com/caarlos0/env/v6"
+
 	"time"
 )
 
@@ -14,7 +15,7 @@ type Struct struct {
 
 type Bot struct {
 	AdminID   int    `env:"ADMIN_TELEGRAM_ID"`
-	ChannelID string    `env:"CHANNEL_ID"`
+	ChannelID string `env:"CHANNEL_ID"`
 	Token     string `env:"BOT_TOKEN"`
 }
 

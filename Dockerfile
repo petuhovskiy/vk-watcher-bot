@@ -8,7 +8,8 @@ RUN apk add --update \
         gcc \
         git \
         make \
-        musl-dev
+        musl-dev \
+        tzdata
 
 COPY go.mod .
 COPY go.sum .
@@ -29,6 +30,7 @@ RUN apk add --update \
         coreutils \
         curl \
         jq \
+        tzdata \
         openssl \
     && rm /var/cache/apk/*
 
