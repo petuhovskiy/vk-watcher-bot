@@ -5,9 +5,8 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-vk-api/vk"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/petuhovskiy/vk-watcher-bot/conf"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestVkClient(t *testing.T) {
