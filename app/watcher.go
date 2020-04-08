@@ -1,9 +1,10 @@
 package app
 
 import (
+	"time"
+
 	"github.com/go-vk-api/vk"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 const (

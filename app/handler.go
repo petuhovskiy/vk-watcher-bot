@@ -2,9 +2,10 @@ package app
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/petuhovskiy/vk-watcher-bot/conf"
 	"github.com/sirupsen/logrus"
-	"strings"
 
 	"github.com/petuhovskiy/telegram"
 )
@@ -53,11 +54,7 @@ func (h *Handler) handleCommand(chatID int, cmds []string) {
 		return
 	}
 
-	cmd := cmds[0]
-	switch cmd {
-	default:
-		h.commandNotFound(chatID)
-	}
+	h.commandNotFound(chatID)
 }
 
 func (h *Handler) commandNotFound(chatID int) {

@@ -1,10 +1,7 @@
 package app
 
-type Logic struct {
-}
+type Logic struct{}
 
 func NewLogic() *Logic {
-	return &Logic{
-
-	}
+	return &Logic{}
 }

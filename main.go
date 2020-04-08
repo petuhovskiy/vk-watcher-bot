@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"time"
 
 	"github.com/go-vk-api/vk"
+	log "github.com/sirupsen/logrus"
+
 	"github.com/petuhovskiy/vk-watcher-bot/app"
 	"github.com/petuhovskiy/vk-watcher-bot/conf"
 
