@@ -64,7 +64,7 @@ func (v VkClient) ReadTopic(req vk.RequestParams) (TopicResponse, error) {
 		awesomeText := fmt.Sprintf(
 			"<a href=\"%v\">%v</a>\nBy: %v\n%v",
 			link,
-			item.Time,
+			item.Time.Add(time.Hour * 3),
 			username,
 			html.EscapeString(item.Text),
 		)
