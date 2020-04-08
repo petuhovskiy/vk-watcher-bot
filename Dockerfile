@@ -30,6 +30,7 @@ RUN apk add --update \
         coreutils \
         curl \
         jq \
+        tzdata \
         openssl \
     && rm /var/cache/apk/*
 

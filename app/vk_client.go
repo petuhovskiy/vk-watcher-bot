@@ -2,12 +2,11 @@ package app
 
 import (
 	"fmt"
+	"html"
+	"time"
 
 	"github.com/go-vk-api/vk"
 	log "github.com/sirupsen/logrus"
-
-	"html"
-	"time"
 )
 
 type TopicResponse struct {
