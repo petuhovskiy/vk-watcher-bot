@@ -1,11 +1,12 @@
 package app
 
 import (
+	"testing"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-vk-api/vk"
 	"github.com/petuhovskiy/vk-watcher-bot/conf"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestVkClient(t *testing.T) {
