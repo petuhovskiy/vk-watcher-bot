@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/petuhovskiy/telegram"
+	log "github.com/sirupsen/logrus"
 
 	"time"
 )
@@ -30,6 +31,9 @@ func (s *Sender) Send(text string) (*telegram.Message, error) {
 		DisableWebPagePreview: true,
 		Text:                  text,
 	})
+	if err != nil {
+		log.WithError(err).Error("unable to send the message")
+	}
 
 	// TODO: workaround telegram spam ban
 	time.Sleep(telegramQueriesDelay)
@@ -42,6 +46,12 @@ func (s *Sender) Pin(msg *telegram.Message) error {
 		MessageID:           msg.MessageID,
 		DisableNotification: true,
 	})
+	if err != nil {
+		log.WithField("message", msg).WithError(err).Error("unable to pin the message")
+	}
+
+	// TODO: workaround telegram spam ban
+	time.Sleep(telegramQueriesDelay)
 	return err
 }
 
