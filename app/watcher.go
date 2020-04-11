@@ -35,7 +35,7 @@ func NewWatcher(cli VkClient, groupID, topicID string, sender *Sender, dur time.
 		skipAnyway:     time.Now().Add(-dur),
 		alreadySent:    map[string]struct{}{},
 		startCommentID: start,
-		messagePin:     true,
+		messagePin:     messagePin,
 	}
 }
 
@@ -95,8 +95,8 @@ func (w *Watcher) readAll() {
 
 			logrus.WithField("text", item.AwesomeText).Info("send content")
 			msg, err := w.sender.Send(item.AwesomeText)
-			if w.messagePin && (err != nil) {
-				w.sender.Pin(msg)
+			if w.messagePin && (err == nil) {
+				_ = w.sender.Pin(msg)
 			}
 		}
 	}
